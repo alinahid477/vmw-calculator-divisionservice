@@ -1,0 +1,32 @@
+##
+# This docker compose is used purely for doing vscode remote development (with the help of remote-devopment extension) of this repo/app.
+# For a comprehensive run (all the microservices) use the ../vmw-calculator-devops docker-compose instead.
+##
+
+version: "3.4"
+services:
+  divisionservicedev:
+    container_name: vmw-calculator-devisionservice-dev
+    image: vmw-calculator-divisionservice-dev:1.0.0
+    build:
+      context: .
+      dockerfile: Dockerfile.remotedev
+    working_dir: /app
+    volumes:
+        - ./:/app
+    networks: 
+      div:
+        ipv4_address: 170.20.0.2
+    ports:
+      - 5001:5001
+      - 5000:5000
+    restart: unless-stopped
+    stdin_open: true
+
+networks:
+  div:
+    # driver: bridge
+    ipam:
+      config:
+        - subnet: 170.20.0.0/16
+          #gateway: 172.20.0.1

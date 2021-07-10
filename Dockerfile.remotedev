@@ -1,0 +1,11 @@
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1
+
+RUN useradd -m -s $(which bash) ali
+
+# in this case “useradd” to add a user named “ali” (which is also my linux host user). The option “-m” creates a home directory for the new user. Without going into further details, this home directory will be used for installing support for remote development, support for C# and similar more. The option “-s $(which bash)” sets bash as the login shell, i.e. the shell to be used once a user logs into the container. This way file created in the docker with user and NOT root. Thus I will be able to edit / add files from anywhere (from within the container OR in the host computer/laptop).
+
+RUN mkdir /app && chown ali:ali /app
+USER ali
+
+
+# create a directory “/app” and change its ownership to "ali”. Finally, the “USER” directive switches to the newly created user “ali”. When we run a container from the resulting image, it will run as “ali” instead of “root”.
