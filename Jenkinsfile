@@ -36,12 +36,12 @@ spec:
         stage("GIT") {
           git credentialsId: 'github-cred', branch: 'main', url: 'https://github.com/alinahid477/vmw-calculator-divisionservice.git'
         }
-        
+        // docker rmi \$(docker images -q --filter \"dangling=true\")
         stage("DOCKER") {
           container('docker') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh """ 
-                  docker rmi \$(docker images -q --filter \"dangling=true\")
+                  docker system prune -a
                   df -h
                   df -hi /var/lib/docker
                   docker image ls
