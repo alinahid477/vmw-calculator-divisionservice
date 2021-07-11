@@ -43,7 +43,6 @@ namespace divisionservice
             {
                 app.UseDeveloperExceptionPage();
             }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();

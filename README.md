@@ -63,3 +63,20 @@ I have set this project for decker based remote development using .devcontainer/
 # NuGet packages used in this
 
 - `dotnet add package Scrutor` ---> For DI (https://andrewlock.net/using-scrutor-to-automatically-register-your-services-with-the-asp-net-core-di-container)
+
+
+# Docker build issue
+
+### Issue: 
+
+obj/Release/netcoreapp3.1/.NETCoreApp,Version=v3.1.AssemblyAttributes.cs(4,12): error CS0579: Duplicate 'global::System.Runtime.Versioning.TargetFrameworkAttribute' attribute [/app/divisionservice.csproj]
+
+This is because the release context is taking obj directory in its context and there's already a AssemblyAttributes.cs from the build stage. So we need to completely ignore the obj directory from the Dockerfile's release context.
+
+
+### Resolve
+
+This is happening because the release context is taking obj directory in its context and there's already a AssemblyAttributes.cs from the build stage. So we need to completely ignore the obj directory from the Dockerfile's release context.
+
+see the .dockerignore file
+

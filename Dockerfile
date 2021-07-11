@@ -1,21 +1,24 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1
+FROM mcr.microsoft.com/dotnet/core/sdk as base
+WORKDIR /app
+ENV ASPNETCORE_URLS=http://+:5000
+EXPOSE 5000
 
-RUN useradd -m -s $(which bash) ali
-RUN mkdir /app && chown ali:ali /app
-USER ali
 
-# WORKDIR /app
+FROM mcr.microsoft.com/dotnet/core/sdk AS build
+WORKDIR /app
+# Copy csproj and restore as distinct layers
+COPY *.csproj .
+RUN dotnet restore
+COPY . .
+RUN dotnet build -c Release
 
-# # Copy csproj and restore as distinct layers
-# COPY *.csproj ./
-# RUN dotnet restore
 
-# # Copy everything else and build
-# COPY . ./
-# RUN dotnet publish -c Release -o out
+FROM build AS publish
+RUN dotnet publish -c Release -o /publish
 
-# # Build runtime image
-# FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
-# WORKDIR /app
-# COPY --from=build-env /app/out .
-# ENTRYPOINT ["dotnet", "aspnetcoreapp.dll"]
+# Build runtime image
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /publish .
+RUN ls -ls && dotnet --version
+ENTRYPOINT ["dotnet", "divisionservice.dll"]
