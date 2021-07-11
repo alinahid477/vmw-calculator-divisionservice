@@ -41,6 +41,7 @@ spec:
           container('docker') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh """ 
+                  docker rmi $(docker images -q --filter "dangling=true")
                   df -h
                   df -hi /var/lib/docker
                   docker image ls
