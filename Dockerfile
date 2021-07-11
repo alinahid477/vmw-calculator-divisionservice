@@ -20,5 +20,5 @@ RUN dotnet publish -c Release -o /publish
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /publish .
-RUN ls -ls && dotnet --version
+# RUN ls -ls && dotnet --version
 ENTRYPOINT ["dotnet", "divisionservice.dll"]

@@ -36,14 +36,15 @@ spec:
         stage("GIT") {
           git credentialsId: 'github-cred', branch: 'main', url: 'https://github.com/alinahid477/vmw-calculator-divisionservice.git'
         }
-        // docker rmi \$(docker images -q --filter \"dangling=true\")
+        
         stage("DOCKER") {
           container('docker') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+              // docker rmi \$(docker images -q --filter \"dangling=true\")
+              // df -h
+              // df -hi /var/lib/docker
               sh """ 
-                  docker system prune -a
-                  df -h
-                  df -hi /var/lib/docker
+                  docker system prune -a -y          
                   docker image ls
                   docker login -u ${USERNAME} -p ${PASSWORD} &&
                   docker build -t harbor-svc.haas-422.pez.vmware.com/anahid/divisionservice:latest .
