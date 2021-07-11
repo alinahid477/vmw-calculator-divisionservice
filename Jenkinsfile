@@ -41,6 +41,9 @@ spec:
           container('docker') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
               sh """ 
+                  df -h
+                  df -hi /var/lib/docker
+                  docker image ls
                   docker login -u ${USERNAME} -p ${PASSWORD} &&
                   docker build -t harbor-svc.haas-422.pez.vmware.com/anahid/divisionservice:latest .
                   docker logout

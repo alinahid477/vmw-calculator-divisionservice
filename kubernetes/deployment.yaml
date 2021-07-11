@@ -39,11 +39,11 @@ spec:
       - name: divisionserviceapp
         image: harbor-svc.haas-422.pez.vmware.com/anahid/divisionservice:latest
         ports:
-        - containerPort: 5002
+        - containerPort: 5000
         livenessProbe:
           httpGet:
             path: /divisionops/healthcheck
-            port: 5002
+            port: 5000
           initialDelaySeconds: 30
           timeoutSeconds: 1
         volumeMounts:
@@ -66,5 +66,5 @@ spec:
     app: divisionserviceapp
   ports:
   - port: 80
-    targetPort: 5002
+    targetPort: 5000
   type: ClusterIP # LoadBalancer # NodePort # 
