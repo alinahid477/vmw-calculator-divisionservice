@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Scrutor;
 
 namespace divisionservice
 {
@@ -26,6 +27,13 @@ namespace divisionservice
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.Scan(scan =>
+                scan.FromCallingAssembly()
+                    .AddClasses()
+                        .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                        .AsImplementedInterfaces()
+                        .WithScopedLifetime()
+            );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

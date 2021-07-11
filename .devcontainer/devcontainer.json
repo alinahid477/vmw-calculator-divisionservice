@@ -6,7 +6,7 @@
     "service": "divisionservicedev",
     "workspaceFolder": "/app",
     "extensions": [
-        "ms-dotnettools.csharp",
+        // "ms-dotnettools.csharp",
         "josefpihrt-vscode.roslynator",
         "formulahendry.dotnet-test-explorer",
         "fernandoescolar.vscode-solution-explorer"

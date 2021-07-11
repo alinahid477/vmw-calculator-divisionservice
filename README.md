@@ -58,3 +58,8 @@ I have set this project for decker based remote development using .devcontainer/
 - `code ./vmw-calculator-divisionservice` --> open this folder. This will auto suggest to 'open in container' click that and should be good to go. If not use the command pallete.
 
 # That's it.
+
+
+# NuGet packages used in this
+
+- `dotnet add package Scrutor` ---> For DI (https://andrewlock.net/using-scrutor-to-automatically-register-your-services-with-the-asp-net-core-di-container)
