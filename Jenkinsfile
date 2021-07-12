@@ -40,11 +40,11 @@ spec:
         stage("DOCKER") {
           container('docker') {
             withCredentials([usernamePassword(credentialsId: 'dockerhub-cred', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-              // docker rmi \$(docker images -q --filter \"dangling=true\")
+              // docker system prune -a -y
               // df -h
               // df -hi /var/lib/docker
               sh """ 
-                  docker system prune -a -y          
+                  docker rmi \$(docker images -q --filter \"dangling=true\")
                   docker image ls
                   docker login -u ${USERNAME} -p ${PASSWORD} &&
                   docker build -t harbor-svc.haas-422.pez.vmware.com/anahid/divisionservice:latest .
@@ -70,8 +70,8 @@ spec:
             sh 'curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"'
             sh 'ls -la'
             sh 'chmod 777 ./kubectl'
-            sh './kubectl apply -f kubernetes/deployment.yaml'
-            //sh './kubectl patch deployment divisionservice-deploy -p \"{\\"spec\\": {\\"template\\": {\\"metadata\\": { \\"labels\\": {  \\"redeploy\\": \\"$(date +%s)\\"}}}}}\" -n calculator'
+            //sh './kubectl apply -f kubernetes/deployment.yaml'
+            sh './kubectl patch deployment divisionservice-deploy -p \"{\\"spec\\": {\\"template\\": {\\"metadata\\": { \\"labels\\": {  \\"redeploy\\": \\"$(date +%s)\\"}}}}}\" -n calculator'
           }
         }
           
